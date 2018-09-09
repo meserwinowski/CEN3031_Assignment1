@@ -80,7 +80,7 @@ Take a look at the source code provided to you, and map out how the different fi
 # Instructions: 
 1. Fork this repository and then navigate to it on your local machine's terminal 
 2. Implement the tasks listed above
-3. Check your that it works by looking at the index.html file in your favorit browser
+3. Check your that it works by looking at the index.html file in your favorite browser
 4. Points towards Project Bidding - Style your page using CSS
 
 Note: Project Bidding Points give your group an edge over other groups for priority in choosing projects
