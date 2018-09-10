@@ -31,7 +31,7 @@
                       * populate the rows with the code and name of each listing
                       * include a way to remove individual listings
                 -->
-              <!-- ng-repeat="(key, value) in Obj" + Filtering with ng-model + Detailed Info on click -->
+              <!-- ng-repeat="(key, value) in Obj" + Filtering with ng-model + Use NG scope index to access details -->
               <tr ng-repeat="item in listings | filter: searchItem" ng-click="showDetails($index)">
                 <td>{{item.code}}</td> <!-- Table data for building code -->
                 <td>{{item.name}}</td> <!-- Table data for building name -->
