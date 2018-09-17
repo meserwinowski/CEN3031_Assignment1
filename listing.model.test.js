@@ -1,7 +1,7 @@
 var should = require('should'), 
     mongoose = require('mongoose'), 
     Listing = require('./ListingSchema'), 
-    config = require('./config');
+    config = require('./config.js');
 
 var listing, id;
 
@@ -18,7 +18,7 @@ listing =  {
 describe('Listing Schema Unit Tests', function() {
 
   before(function(done) {
-    mongoose.connect(config.db.uri);
+    mongoose.connect(config.db.uri, { useNewUrlParser: true });
     done();
   });
 
@@ -70,7 +70,7 @@ describe('Listing Schema Unit Tests', function() {
 
   afterEach(function(done) {
     if(id) {
-      Listing.remove({ _id: id }).exec(function() {
+      Listing.deleteOne({ _id: id }).exec(function() {
         id = null;
         done();
       });
