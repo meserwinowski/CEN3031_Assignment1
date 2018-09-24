@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 /*
   In this file, you should use Mongoose queries in order to retrieve/add/remove/update listings.
-  On an error you should send a 404 status code, as well as the error message. 
+  On an error you should send a 404 status code, as well as the error message.
   On success (aka no error), you should send the listing(s) as JSON in the response.
 
   HINT: if you are struggling with implementing these functions, refer back to this tutorial 
@@ -18,13 +18,13 @@ exports.create = function(req, res) {
   /* Instantiate a Listing */
   var listing = new Listing(req.body);
 
-
   /* Then save the listing */
   listing.save(function(err) {
     if(err) {
       console.log(err);
       res.status(400).send(err);
-    } else {
+    }
+    else {
       res.json(listing);
     }
   });
@@ -33,6 +33,7 @@ exports.create = function(req, res) {
 /* Show the current listing */
 exports.read = function(req, res) {
   /* send back the listing as json from the request */
+  res.status(200);
   res.json(req.listing);
 };
 
@@ -40,9 +41,24 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
   var listing = req.listing;
 
-  /** TODO **/
   /* Replace the article's properties with the new properties found in req.body */
+  listing.name = req.body.name;
+  listing.code = req.body.code;
+  listing.address = req.body.address;
+  listing.coordinates = req.body.coordinates;
+  listing.updated_at = req.body.created_at;
+
   /* Save the article */
+  listing.save(function(err) {
+    if (err) {
+      console.log("Update: ", err);
+      res.status(400).send(err);
+    }
+    else {
+      res.status(200);
+      res.json(listing);
+    }
+  });
 };
 
 /* Delete a listing */
@@ -51,12 +67,32 @@ exports.delete = function(req, res) {
 
   /** TODO **/
   /* Remove the article */
+  listing.remove(function(err) {
+    if (err) {
+      console.log("Delete: ", err);
+      res.status(400).send(err);
+    }
+    else {
+      res.status(200);
+      res.end();
+    }
+  });
 };
 
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 exports.list = function(req, res) {
   /** TODO **/
   /* Your code here */
+  Listing.find().sort('code').exec(function(err, listings) {
+    if (err) {
+      console.log("List: ", err);
+      res.status(404).send(err);
+    }
+    else {
+      res.status(200);
+      res.json(listings);
+    }
+  });
 };
 
 /* 
@@ -68,9 +104,12 @@ exports.list = function(req, res) {
  */
 exports.listingByID = function(req, res, next, id) {
   Listing.findById(id).exec(function(err, listing) {
-    if(err) {
+    if (err) {
+      console.log("Middleware: ", err);
       res.status(400).send(err);
-    } else {
+    }
+    else {
+      res.status(200);
       req.listing = listing;
       next();
     }

@@ -8,7 +8,7 @@ var path = require('path'),
 
 module.exports.init = function() {
   //connect to database
-  mongoose.connect(config.db.uri);
+  mongoose.connect(config.db.uri, { useMongoClient: true });
 
   //initialize app
   var app = express();
@@ -19,17 +19,17 @@ module.exports.init = function() {
   //body parsing middleware 
   app.use(bodyParser.json());
 
-  
-  /**TODO
-  Serve static files */
-  
+  // Serve static files
+  app.use('/', express.static(path.join(__dirname, '/../../client')))
 
-  /**TODO 
-  Use the listings router for requests to the api */
+  //Use the listings router for requests to the app
+  app.use(`/api/listings`, listingsRouter);
 
-
-  /**TODO 
-  Go to homepage for all routes not specified */ 
+  // Go to homepage for all routes not specified
+  app.get('/*', function(req, res) {
+    console.log(__dirname);
+    res.sendFile('index.html', { root: __dirname + '/../../client' });
+  });
 
   return app;
 };  
