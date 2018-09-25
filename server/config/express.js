@@ -8,6 +8,7 @@ var path = require('path'),
 
 module.exports.init = function() {
   //connect to database
+  mongoose.Promise = global.Promise;
   mongoose.connect(config.db.uri, { useMongoClient: true });
 
   //initialize app
@@ -20,14 +21,13 @@ module.exports.init = function() {
   app.use(bodyParser.json());
 
   // Serve static files
-  app.use('/', express.static(path.join(__dirname, '/../../client')))
+  app.use('/', express.static(path.join(__dirname, '/../../client')));
 
   //Use the listings router for requests to the app
   app.use(`/api/listings`, listingsRouter);
 
   // Go to homepage for all routes not specified
   app.get('/*', function(req, res) {
-    console.log(__dirname);
     res.sendFile('index.html', { root: __dirname + '/../../client' });
   });
 

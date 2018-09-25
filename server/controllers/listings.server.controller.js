@@ -22,7 +22,7 @@ exports.create = function(req, res) {
   listing.save(function(err) {
     if(err) {
       console.log(err);
-      res.status(400).send(err);
+      res.status(404).send(err);
     }
     else {
       res.json(listing);
@@ -52,7 +52,7 @@ exports.update = function(req, res) {
   listing.save(function(err) {
     if (err) {
       console.log("Update: ", err);
-      res.status(400).send(err);
+      res.status(404).send(err);
     }
     else {
       res.status(200);
@@ -70,7 +70,7 @@ exports.delete = function(req, res) {
   listing.remove(function(err) {
     if (err) {
       console.log("Delete: ", err);
-      res.status(400).send(err);
+      res.status(404).send(err);
     }
     else {
       res.status(200);
@@ -106,7 +106,7 @@ exports.listingByID = function(req, res, next, id) {
   Listing.findById(id).exec(function(err, listing) {
     if (err) {
       console.log("Middleware: ", err);
-      res.status(400).send(err);
+      res.status(404).send(err);
     }
     else {
       res.status(200);
