@@ -5,6 +5,7 @@ var path = require('path'),
     bodyParser = require('body-parser'),
     config = require('./config'),
     listingsRouter = require('../routes/listings.server.routes');
+    cors = require('cors');
 
 module.exports.init = function() {
   //connect to database
@@ -19,6 +20,8 @@ module.exports.init = function() {
 
   //body parsing middleware 
   app.use(bodyParser.json());
+
+  app.use(cors());
 
   // Serve static files
   app.use('/', express.static(path.join(__dirname, '/../../client')));
